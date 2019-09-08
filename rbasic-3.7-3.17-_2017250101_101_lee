@@ -36,7 +36,7 @@ But be careful not to confuse the single quote ’ with the back quote `.
 
 By now you should know that if you type:
 
-```{r
+```{r}
 country <- c(italy, canada, egypt)
 ```
 
