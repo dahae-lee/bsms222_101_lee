@@ -1,5 +1,5 @@
 ---
-title: "rbasic(3.7-3.17)_2017250101_101_lee"
+title: "rbasic_2_2017250101_101_lee"
 output: html_document
 ---
 
@@ -36,7 +36,7 @@ But be careful not to confuse the single quote ’ with the back quote `.
 
 By now you should know that if you type:
 
-```{r}
+```{r
 country <- c(italy, canada, egypt)
 ```
 
