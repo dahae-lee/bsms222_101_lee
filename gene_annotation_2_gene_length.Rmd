@@ -1,0 +1,71 @@
+---
+title: "Gene_annotation_2_gene_length"
+output: 
+  html_document:
+   df_print: paged
+ html_notebook: default
+ pdf_document:
+   latex_engine: xelatex
+---
+
+```{r}
+library(tidyverse, quietly = T)
+library(readr, quietly = T)
+
+cols = c('chrom', 'source', 'feature_type', 'start', 'end', 'score', 'strand', 'phase', 'info')
+
+d = read_delim('gencode.v31.basic.annotation.gtf.gz', 
+               delim='\t', skip = 5, 
+               progress = F,
+               col_names = cols)
+```
+
+1. What is the average length of human genes?
+
+```{r}
+d1 <- filter(d, d$feature_type == 'gene')
+
+#do.call 함수를 사용하여 d1$gene_biotype에 gene biotype의 정보를 저장한다.
+
+d1$gene_biotype <- as.character(do.call(rbind.data.frame, strsplit(d1$info, 'gene_type\\s+"'))[[2]])
+
+d1$gene_biotype <- as.character(do.call(rbind.data.frame, strsplit(d1$gene_biotype, '\\"'))[[1]])
+
+#유전자의 길이 정보를 gene_length column에 저장한다.
+
+d1$gene_length <- (d1$end - d1$start)
+d2 <- select(d1, chrom, gene_biotype, gene_length)
+
+mean(d2$gene_length)
+```
+
+2. Is the distribution of gene length differed by autosomal and sex chromosomes? Please calculate the quantiles (0%, 25%, 50%, 75%, 100%) of the gene length for each group.
+
+```{r}
+my_summary <- function(d2){
+  x <- quantile(d2$gene_length, c(0, 0.25, 0.5, 0.75, 1))
+  data_frame(min = x[1], Q1 = x[2], median = x[3], Q3 = x[4], max = x[5])
+}
+
+d2_chrom_quan <- d2 %>% 
+ group_by(chrom) %>% 
+  do(my_summary(.))
+
+d2_chrom_quan
+```
+
+3. Is the distribution of gene length differed by gene biotype? Please calculate the quantiles (0%, 25%, 50%, 75%, 100%) of the gene length for each group.
+
+```{r}
+my_summary <- function(d2){
+  x <- quantile(d2$gene_length, c(0, 0.25, 0.5, 0.75, 1))
+  data_frame(min = x[1], Q1 = x[2], median = x[3], Q3 = x[4], max = x[5])
+}
+
+d2_biotype_quan <- d2 %>% 
+  group_by(gene_biotype) %>% 
+  do(my_summary(.))
+
+d2_biotype_quan
+```
+
