@@ -1,11 +1,12 @@
 ---
-title: "the_tidyverse_2_2017250101_101_lee"
+title: "the_tidyverse_2.2_2017250101_101_lee"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
 
 ##5.7 Summarizing data
 
