@@ -550,7 +550,7 @@ pnorm(84, mean = 69, sd = 3, lower.tail=FALSE)
 14. Repeat the calculations performed in the previous question for Lebron James’ height: 6 feet 8 inches. There are about 150 players that are at least that tall.
 
 ```{r}
-10 / (1000000000 * (1 - pnorm(80, mean = 69, sd = 3)))
+150 / (1000000000 * (1 - pnorm(80, mean = 69, sd = 3)))
 ```
 
 15. In answering the previous questions, we found that it is not at all rare for a seven footer to become an NBA player. What would be a fair critique of our calculations:
