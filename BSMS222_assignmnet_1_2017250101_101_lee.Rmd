@@ -1,0 +1,69 @@
+---
+title: "assignment1_2017250101_101_lee"
+output: html_notebook
+---
+
+# 1. Loading the data
+
+```{r}
+d <- read.delim("DDG2P_24_9_2019.with_pLI.txt")
+```
+
+# 2. Draw the plot
+
+We will draw two plots: 1) pLI score by allelic requirement and 2) pLI score by DDD category.
+For this, we will use the ridgeline plot.
+
+```{r}
+library(ggridges)
+library(ggplot2)
+
+#Draw the first plot: pLI score by allelic requirement
+
+p1 <- d %>%
+  ggplot(aes(x = pLI, y = allelic.requirement, fill = allelic.requirement)) +
+  geom_density_ridges(alpha=0.6, stat="binline", bins=50)+
+  theme_ridges() + 
+  theme(
+    legend.position = "none",
+    panel.spacing = unit(0.1, "lines")) +
+  xlab("pLI score")+
+  ylab("Allelic requirement")
+
+p1
+
+#Because the plots touches a line a lot above, we've changed a scale of the plot to 0.9. Scale, one of the aesthetics, is a scaling factor to scale the height of the ridgelines relative to the spacing between them. A value of 1 indicates that the maximum point of any ridgeline touches the baseline right above, assuming even spacing between baselines.
+```
+
+
+```{r}
+#For this time, in order to change the figure color and also make the plot colorblind friendly, lets define the cbPalette and use it to fill the figure.
+
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+p2 <- ggplot(d, aes(x = pLI, y = DDD.category, fill = DDD.category)) +
+  scale_fill_manual(values=cbPalette)+
+  geom_density_ridges(scale=0.9, alpha=0.6, stat="binline", bins=50)+
+  theme_ridges() + 
+  theme(
+    legend.position = "none",
+    panel.spacing = unit(0.1, "lines")) +
+  xlab("pLI score")+
+  ylab("DDD category")
+  
+
+p2
+```
+
+# 3. Merge the plots
+
+We will merge the previous two plots using the function `cowplot`.
+```{r}
+library(cowplot)
+p<-plot_grid(p1,p2,ncol=2)
+p
+
+ggsave('plot.pLI_by_allelic_requirement_and_DDD_category.DDG2P.20191015.pdf', p, width = 19, height = 9)
+
+```
+
