@@ -31,8 +31,6 @@ p1 <- d %>% filter(allelic.requirement != "NA") %>%
   ylab("Allelic requirement")
 
 p1
-
-#Because the plots touches a line a lot above, we've changed a scale of the plot to 0.9. Scale, one of the aesthetics, is a scaling factor to scale the height of the ridgelines relative to the spacing between them. A value of 1 indicates that the maximum point of any ridgeline touches the baseline right above, assuming even spacing between baselines.
 ```
 
 
@@ -51,6 +49,8 @@ p2 <- ggplot(d, aes(x = pLI, y = DDD.category, fill = DDD.category)) +
   xlab("pLI score")+
   ylab("DDD category")
   
+
+#Because the plots touches a line a lot above, we've changed a scale of the plot to 0.9. Scale, one of the aesthetics, is a scaling factor to scale the height of the ridgelines relative to the spacing between them. A value of 1 indicates that the maximum point of any ridgeline touches the baseline right above, assuming even spacing between baselines.
 
 p2
 ```
