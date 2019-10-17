@@ -66,6 +66,43 @@ p
 
 # 4. Explanation
 
+Fisrt, let's define the several terms related to the plot. These definition is from DECIPHER, the source of the raw data of the above plots. 
+
+x-linked dominant: Plausible disease-causing mutations identified one copy of the X chromosome in females as a cause of a specific developmental disorder, includes disorders where heterozygous females and hemizygous males are
+similarly affected (e.g. SMC1A mutations) 
+
+mosaic: Plausible disease-causing mutations identified on one allele in a proportion of cells with the others being wild-type as a cause of a specific developmental disorder 
+
+imprinted: Plausible disease-causing mutations identified on one allele with the parent of origin determining the specific developmental disorder 
+
+digenic: Plausible disease-causing mutations identified on one or both alleles of two different genes causing a specific developmental disorder where similar mutations of either gene would not 
+
+monoallelic: Plausible disease-causing mutations identified on one allele in all or the vast majority of with specific developmental disorder 
+
+biallelic: Plausible disease-causing homozygous or compound heterozygous mutations identified on both alleles in the majority of with specific developmental disorder 
+
+hemizygous: Plausible disease-causing mutations identified on the X chromosome in a male as a cause of a specific developmental disorder, the disorder being predominantly recessive in female carriers 
+
+Confirmed DD Gene: 
+1) Plausible disease-causing mutations within, affecting or encompassing an interpretable functional region of a single gene identified in multiple (>3) unrelated cases/families with a developmental disorder
+2) Plausible disease-causing mutations within, affecting or encompassing cis-regulatory elements convincingly affecting the expression of a single gene identified in multiple (>3) unrelated cases/families with a developmental disorder
+3) As definition 1 and 2 of Probable DD Gene (see below) with addition of convincing bioinformatic or functional evidence of causation (e.g. known inborn error of metabolism with mutation in orthologous gene which is known to have the relevant deficient enzymatic activity in other species; existence of animal mode which recapitulates the human phenotype)
+
+Probable DD Gene:
+1) Plausible disease-causing mutations within, affecting or encompassing an interpretable functional region of a single gene identified in more than one (2 or 3) unrelated cases/families or segregation within multiple individuals within a single large family with a developmental disorder
+2) Plausible disease-causing mutations within, affecting or encompassing cis-regulatory elements convincingly affecting the expression of a single gene identified in in more than one (2 or 3) unrelated cases/families with a developmental disorder
+3) As definitions of Possible DD Gene (see below) with addition of convincing bioinformatic or functional evidence of causation (e.g. known inborn error of metabolism with mutation in orthologous gene which is known to have the relevant deficient enzymatic activity in other species; existence of animal mode which recapitulates the human phenotype)
+
+Possible DD Gene:
+1) Plausible disease-causing mutations within, affecting or encompassingan interpretable functional region of a single gene identified in one case or segregation within multiple individuals within a small family with a developmental disorder
+2) Plausible disease-causing mutations within, affecting or encompassing cis-regulatory elements convincingly affecting the expression of a single gene identified in one case/family with a developmental disorder
+3) Possible disease-causing mutations within, affecting or encompassing an interpretable functional region of a single gene identified in more than one unrelated cases/families or segregation within multiple individuals within a single large family with a developmental disorder
+
+Not DD Gene: No plausible disease-causing mutations within, affecting or encompassing the coding region in a developmental disorder AND not an IF gene
+
+Both DD and IF: Plausible disease-causing mutations within, affecting or encompassing the coding region of a single gene identified in multiple (>3) unrelated cases/families with both a developmental disorder and an incidental (nondevelopmental) disorder
+
+Now let's begin to understand the plot.
 The pLI score, which is computed from Exome Aggregation Consortium (ExAC), indicates the probability that a gene is intolerant to a Loss of Function (LoF) mutation. Genes with high pLI scores (pLI ≥ 0.9) are extremely LoF intolerant, whereby genes with low pLI scores (pLI ≤ 0.1) are LoF tolerant.
 
 To begin with, if you see the plot in the left - pLI score by allelic requirement, you can see that the allelic requirement entries are divided into two groups: x-linked over-dominance, x-linked dominant, mosaic, monoallelic, imprinted, and hemizygous/mosaic, hemizygous have relatively high pLI score, which means that they are LoF intolerant. Therefore, the genes of these allelic requirement have a high probability to fall into the Haplosufficient category. 
@@ -78,4 +115,5 @@ We can understand this result related to the definition of Haplosufficient categ
 
 Simply, this situation is easily happened when the product of gene is insufficient, so hemizygous genes(including genes in sex chromosome) are intolerate to it. This is because there is no gene to replace the function if single allele is mutated.
 
-Moreover, we can see the plot in the right - pLI score by DDD category. DDD is Deciphering Developmental Disorders, and the DDD category is the level of certainty that the gene causes developmental disease. As you see the plot, except 'child IF' category, the pLI scores of the categories are polarized from end to end. This states that even though it can easily be expected that the high pLI score would lead to high DDD probability because DDD is shown by the abnormal phenotype, the pLI score and the DDD probability do not have positive correlation. More accurately, as the pLI scores are highly polarized, there would be more than one other etiology that cause DDD, not only LoF.
+Moreover, we can see the plot in the right - pLI score by DDD category. DDD is Deciphering Developmental Disorders, and as you could realize from the definition of the DDD category terms above, the DDD category is the level of certainty that the gene causes developmental disease. As you see the plot, except 'child IF' category, the pLI scores of the categories are polarized from end to end. 
+This states that even though it can easily be expected that the high pLI score would lead to high DDD probability because DDD is shown by the abnormal phenotype, the pLI score and the DDD probability do not have positive correlation. More accurately, as the pLI scores are highly polarized, there would be more than one other etiology that cause DDD, not only LoF.
