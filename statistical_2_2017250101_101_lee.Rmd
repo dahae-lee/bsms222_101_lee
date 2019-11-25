@@ -333,7 +333,7 @@ We often see two-by-two tables written out as
 Awarded |	a |	b
 Not Awarded |	c |	d
 
-In this case, the odds ratio is $\frac{a/c}{b/d}$ which is equivalent to $(ad)/(bc)$
+In this case, the odds ratio is $\frac{a/d}{b/c}$ which is equivalent to $(ad)/(bc)$
 
 ### 15.10.5 Confidence intervals for the odds ratio
 
