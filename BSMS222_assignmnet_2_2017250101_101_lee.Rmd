@@ -1,0 +1,112 @@
+---
+title: "assignment2_2017250101_101_lee"
+output: html_notebook
+---
+# Original plot
+
+```{r fig 1, fig.width=10, fig.height=5}
+# The plot for midterm exam
+
+d <- read.delim("DDG2P_24_9_2019.with_pLI.txt")
+
+library(ggridges)
+library(ggplot2)
+
+p1 <- d %>% filter(allelic.requirement != "NA") %>%
+  ggplot(aes(x = pLI, y = allelic.requirement, fill = allelic.requirement)) +
+  geom_density_ridges(alpha=0.6, stat="binline", bins=50)+
+  theme_ridges() + 
+  theme(
+    legend.position = "none",
+    panel.spacing = unit(0.1, "lines")) +
+  xlab("pLI score")+
+  ylab("Allelic requirement")
+
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+p2 <- ggplot(d, aes(x = pLI, y = DDD.category, fill = DDD.category)) +
+  scale_fill_manual(values=cbPalette)+
+  geom_density_ridges(scale=0.9, alpha=0.6, stat="binline", bins=50)+
+  theme_ridges() + 
+  theme(
+    legend.position = "none",
+    panel.spacing = unit(0.1, "lines")) +
+  xlab("pLI score")+
+  ylab("DDD category")
+
+library(cowplot)
+p<-plot_grid(p1,p2,ncol=2)
+
+p
+```
+
+# Feedbacks
+
+### 1. Exact data numbers(proportion would be good too)
+
+In ggridges, the y value is density, so they're already calculated to proportions.
+As the data size is big enough, it'll be okay to just check the distribution of pLI scores. We can just indicate this in title that the y values are adjusted ones.
+And also, if we make the plot with exact data numbers, because the data numbers have a big difference, the plot is hard to be read. 
+
+Here is the plot used `geom_histogram()` that has exact counts of each data:
+```{r}
+p3 <- d %>% filter(allelic.requirement != "NA") %>%
+  ggplot(aes(x = pLI)) +
+  geom_histogram(binwidth = 0.01, bins = 50)+
+  facet_grid(allelic.requirement ~ .)
+```
+
+
+### 2. There is the plot bilnds another
+
+This can be solved by increasing the height.
+The plot width and height can be adjusted at the top of the code block by `fig.width` and `fig.height`.
+Moreover, this problem could be solved by decreasing the alpha value, which indicates the degree of transparency. The alpha value of the original plot was 0.6. Lower than this, the plot would be seem to blurry. So it would be better to adjust the width and height of the figures.
+
+### 3. Data could be ordered from big to small
+
+In the case of second plot(p2 : pLI score by DDD category), it would be better if the y axis is ordered by the sequence as "confirmed"-"probable"-"possible". This could be done by having a new column in d, and have a plot by that column.
+
+### 4. Title is needed
+
+This could be reflected by `ggtitle()`.
+
+# Revised plot
+
+```{r fig, fig.width=13, fig.height=10}
+
+p1 <- d %>% filter(allelic.requirement != "NA") %>%
+  ggplot(aes(x = pLI, y = allelic.requirement, fill = allelic.requirement)) +
+  geom_density_ridges(alpha=0.6, stat="binline", bins=50, scale = 0.95, draw_baseline = FALSE)+
+  theme_ridges() + 
+  theme(
+    legend.position = "none",
+    panel.spacing = unit(0.1, "lines")) +
+  ggtitle("PLI Score by Allelic Requirement")+
+  xlab("pLI score")+
+  ylab("Allelic requirement")+
+  ggtitle("PLI Score by Allelic Requirement")
+
+p1
+
+d$DDD.category_a <- factor(d$DDD.category, levels = c("both RD and IF", "child IF", "possible", "probable", "confirmed"))
+
+p2 <- d %>% arrange(desc(pLI)) %>%
+  ggplot(aes(x = pLI, y = DDD.category_a, fill = DDD.category)) +
+  scale_fill_manual(values=cbPalette)+
+  geom_density_ridges(scale=0.9, alpha=0.6, stat="binline", bins=50)+
+  theme_ridges() + 
+  theme(
+    legend.position = "none",
+    panel.spacing = unit(0.1, "lines")) +
+  xlab("pLI score")+
+  ylab("DDD category")+
+  ggtitle("PLI Score by DDD Category")
+
+p2
+
+library(cowplot)
+p<-plot_grid(p1,p2,ncol=2)
+
+p
+```
