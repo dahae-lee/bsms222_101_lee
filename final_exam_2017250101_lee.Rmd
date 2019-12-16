@@ -83,6 +83,9 @@ S <- replicate(B, dollars(N))
 
 #expected value of Monte Carlo simulation
 mean(S)
+
+#se of Monte Carlo simulation
+sd(S)
 ```
 
 
