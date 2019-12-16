@@ -108,7 +108,9 @@ M1 <- as.data.frame(m1) %>% mutate(n = seq(1,nrow(M1)))
 M2 <- as.data.frame(m2) %>% mutate(n = seq(1,nrow(M2)))
 M3 <- as.data.frame(m3) %>% mutate(n = seq(1,nrow(M3)))
 M4 <- as.data.frame(m4) %>% mutate(n = seq(1,nrow(M4)))
+```
 
+```{r}
 M1 %>% ggplot(aes(m1, n))+
   geom_point()+
   coord_flip()
@@ -134,15 +136,21 @@ M3 %>% ggplot(aes(m3, n))+
 M4 %>% ggplot(aes(m4, n))+
   geom_boxplot()+
   coord_flip()
+```
 
+```{r}
 mean(M1$m1)
 sd(M1$m1)
+
 mean(M2$m2)
 sd(M2$m2)
+
 mean(M3$m3)
 sd(M3$m3)
+
 mean(M4$m4)
 sd(M4$m4)
 ```
+
 
 The mean and the se are tend to depend on the size of N.
