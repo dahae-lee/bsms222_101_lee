@@ -1,0 +1,148 @@
+---
+title: "Final exam"
+output: html_notebook
+---
+
+Q1. From the dataset `heights` in the `dslabs` package, please describe the distribution of male and female heights. If you pick a female at random, what is the probability that she is 61 inches or shorter? 
+
+```{r}
+#load data
+library(dslabs)
+library(tidyverse)
+data(heights) 
+
+m <- filter(heights, sex == 'Male')
+f <- filter(heights, sex == 'Female')
+```
+
+```{r}
+#see the distribution
+
+ggplot(heights, aes(x=height, color=sex)) +
+  geom_histogram(fill="white", position="dodge")+
+  theme(legend.position="top")
+
+ggplot(heights, aes(x = sex, y = height)) +
+  geom_boxplot(aes(color = sex))
+
+mean(m$height)
+sd(m$height)
+
+mean(f$height)
+sd(f$height)
+```
+
+From the plot, we can describe the distribution as:
+
+1. There are more data of the male than the that of the female in data `heights`.
+
+2. According to the data, males are usually taller than females.
+
+3. The standard deviation of females' data is slightly bigger that the males'.
+
+```{r}
+#pick a female by random
+
+f_s <- sample(f$height, 1)
+mean(f$height <= 61)
+```
+
+Q2. For American Roulette, there are 19 reds, 16 blacks and 3 greens. The payout for winning on green is 15 dollars. You create a random variable that is the sum   of your winnings after betting on green 1000 times. Start your code by setting the seed to 1. Describe your random variable (e.g. the expected value, the standard error). Then, create a Monte Carlo simulation that generates 1,000 outcomes of a random variable, and then describe your result. 
+
+```{r}
+#create a random variable
+N <- 1000
+
+set.seed(1)
+dollars <- function(n){
+  x <- sample(c(15,-1), n, replace = TRUE, prob = c(3/38,35/38))
+  sum(x)
+}
+
+dollars(N)
+
+#expected value
+15*(3/38) - 35/38 
+
+#standard error
+sqrt(N)*16*sqrt(3/38*35/38)
+```
+
+```{r}
+#create a Monte Carlo simulation
+N <- 1000
+B <- 1000
+
+set.seed(1)
+dollars <- function(n){
+  x <- sample(c(15,-1), n, replace = TRUE, prob = c(3/38,35/38))
+  sum(x)
+}
+
+S <- replicate(B, dollars(N))
+
+#expected value of Monte Carlo simulation
+mean(S)
+```
+
+
+Q3. From the poll example, we will create a Monte Carlo simulation for p = 0.45. You will compare the sampling size(N) for 10, 1000, and the repeat size(B) for 100, 10000. So you should have four combinations (10N x 100B, 1000N x 100B, 10N x 10000B, 1000N x 10000B). Please describe your Monte Carlo simulation results, and compare four combinations.
+
+```{r}
+#create a Monte Carlo simulation
+p <- 0.45 
+
+set.seed(1)
+Mon <- function(n){
+  x <- sample(c(1,-1), n, replace = TRUE, prob = c(p,1-p))
+  sum(x)
+}
+
+m1 <- replicate(100, Mon(10))
+m2 <- replicate(100, Mon(1000))
+m3 <- replicate(10000, Mon(10))
+m4 <- replicate(10000, Mon(1000))
+
+library(plyr)
+M1 <- as.data.frame(m1) %>% mutate(n = seq(1,nrow(M1)))
+M2 <- as.data.frame(m2) %>% mutate(n = seq(1,nrow(M2)))
+M3 <- as.data.frame(m3) %>% mutate(n = seq(1,nrow(M3)))
+M4 <- as.data.frame(m4) %>% mutate(n = seq(1,nrow(M4)))
+
+M1 %>% ggplot(aes(m1, n))+
+  geom_point()+
+  coord_flip()
+M2 %>% ggplot(aes(m2, n))+
+  geom_point()+
+  coord_flip()
+M3 %>% ggplot(aes(m3, n))+
+  geom_point()+
+  coord_flip()
+M4 %>% ggplot(aes(m4, n))+
+  geom_point()+
+  coord_flip()
+
+M1 %>% ggplot(aes(m1, n))+
+  geom_boxplot()+
+  coord_flip()
+M2 %>% ggplot(aes(m2, n))+
+  geom_boxplot()+
+  coord_flip()
+M3 %>% ggplot(aes(m3, n))+
+ geom_boxplot()+
+  coord_flip()
+M4 %>% ggplot(aes(m4, n))+
+  geom_boxplot()+
+  coord_flip()
+
+mean(M1$m1)
+sd(M1$m1)
+mean(M2$m2)
+sd(M2$m2)
+mean(M3$m3)
+sd(M3$m3)
+mean(M4$m4)
+sd(M4$m4)
+```
+
+The mean and the se are tend to depend on the size of N.
